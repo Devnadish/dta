@@ -1,0 +1,130 @@
+{
+  "loginBar": {
+    "login": "Login",
+    "register": "register",
+    "loginHint": "Login please"
+  },
+
+  "navigation": {
+    "menu": "Menu",
+    "home": "Home",
+    "price": "Prices",
+    "sample": "Portfolio",
+    "blog": "Blog",
+    "serves": "service",
+    "contact": "contact",
+    "whatapp": "Whatsapp",
+    "sheetTilte": "Excited To Serve You",
+    "sheetDesction": " Welcome! I'm here to assist you with all your needs, from answering   questions to providing insights. Let’s explore new ideas together!"
+  },
+  "page": {
+    "about": {
+      "homePage": {
+        "ensure": "We Ensure",
+        "foryou": "Exclusively yours",
+        "expert": "Our Expertise",
+        "service": "Our Service",
+        "sample": "Sample of Works",
+        "offers": "Hot Offer",
+        "more": "More Info"
+      },
+
+      "willdo": {
+        "waitingForyou": "Waiting for you",
+        "Ui": "Innovative and Engaging Design",
+        "UiDetail": "Our professional team designs innovative and engaging websites that professionally reflect your brand identity.",
+        "Ux": "Excellent User Experience",
+        "UxDetail": "We pay close attention to user experience details to ensure an easy and seamless experience for visitors to your website.",
+        "perfomance": "Fast and High-Performance",
+        "perfomanceTitle": "We guarantee that your website works quickly and efficiently on all devices and screens.",
+        "seo": "Optimized Search Engine (SEO)",
+        "seoTitle": "We use best practices to improve your website's search engine optimization and increase its visibility in search results."
+      },
+      "provide": {
+        "help": "Continuous Technical Support",
+        "helpTitle": "We provide you with continuous technical support to help solve any issues you may encounter and ensure your website continues to work perfectly.",
+        "freeConsultaion": "Free Consultations",
+        "freeConsultaionTitle": "I'm happy to provide free consultations in the field of website design, programming, or mobile applications, and to work with you to find the right solutions for your business."
+      },
+
+      "tcno": {
+        "nextjs": "Next.js",
+        "nextjsTitle": "A powerful framework for building server-rendered React applications, enabling fast and optimized web apps.",
+
+        "nodejs": "Node.js",
+        "nodejsTitle": "A JavaScript runtime that allows for building scalable network applications, perfect for backend services.",
+
+        "react": "React",
+        "reactTitle": "A popular JavaScript library for creating interactive user interfaces with reusable components.",
+
+        "reactnative": "React Native",
+        "reactnativeTitle": "A framework for building mobile applications using React, enabling native apps for iOS and Android.",
+
+        "mongoDB": "MongoDB",
+        "mongoDBTitle": "A NoSQL database that stores data in flexible, JSON-like documents, designed for scalability.",
+
+        "firebase": "Firebase",
+        "firebaseTitle": "A platform by Google for building mobile and web apps, offering tools for real-time databases and authentication.",
+
+        "aws": "AWS",
+        "awsTitle": "A comprehensive cloud computing platform that provides a wide range of services for hosting applications.",
+
+        "prisma": "Prisma",
+        "prismaTitle": "An open-source database toolkit that simplifies database access for Node.js applications."
+      },
+
+      "services": {
+        "mobileApp": "Mobile App Development",
+        "mobileAppTitle": "Creating applications specifically for mobile devices, ensuring a seamless user experience on smartphones and tablets.",
+
+        "webApp": "Web Application Development",
+        "webAppTitle": "Building responsive and interactive web applications that run in web browsers, providing users with dynamic functionality.",
+
+        "ecommerce": "E-commerce Solutions",
+        "ecommerceTitle": "Developing online stores and platforms that facilitate buying and selling products or services over the internet.",
+
+        "design": "UI/UX Design",
+        "designTitle": "Creating user interfaces and experiences that are visually appealing and user-friendly, enhancing overall satisfaction.",
+
+        "digitalMarketing": "Digital Marketing",
+        "digitalMarketingTitle": "Promoting products or services through digital channels to reach a wider audience and drive engagement.",
+        "emailMarketing": "Email Marketing",
+        "emailMarketingTitle": "Sending targeted emails to nurture leads and communicate with customers, enhancing engagement and retention."
+      }
+    },
+
+    "mywork": {
+      "smMenuTilte": "Social Media",
+      "uiUxMenuTitle": "User Interface",
+      "identityMenuTitle": "Visual Identity",
+      "mixedMenuTitl": "Multimedia",
+      "singBoardMEnuTitle": "Bulletin Board",
+      "cncMenuTitle": "CNC Work",
+      "Character": "Character",
+      "Coverpage": "Cover Page",
+      "Logo": "Logo",
+      "flyer": "Flyer",
+      "infograph": "Infographic",
+      "menu": "Menu",
+      "package": "Package",
+      "poster": "Poster",
+      "pagetitle": "At Dream to App, we specialize in delivering exceptional web and mobile solutions tailored to your unique needs. Our skilled team combines cutting-edge technology with innovative design and visual identity to create user-friendly applications that enhance both functionality and user experience. We prioritize UI/UX principles to ensure every interaction is intuitive and engaging. With a strong commitment to quality and professionalism, we execute each project with efficiency and attention to detail. Partner with Dream to App to experience the difference that true expertise can make in your digital journey."
+    },
+    "contactus": {
+      "pagetitle": "Contact Us",
+
+      "mobile": "Mobile Number",
+      "mobilePlaceHolder": "Please enter your 10-digit mobile number.",
+      "mobileValidationError": "Mobile number must be 10 digits",
+
+      "email": "Email",
+      "emailPlaceHolder": "example@example.com",
+      "emailValidationError": "you@example.com",
+
+      "msg": "Message",
+      "msgplaceHolder": "How can we help you?",
+      "msgValidationError": "Message must be at least 10 characters long",
+      "sendBtn": "send Message"
+    }
+  }
+}

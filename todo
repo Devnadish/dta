@@ -1,0 +1,25 @@
+faq page
+- dashboard page to show all the questions and answers
+- reject question
+- alert user when question is rejected
+- alert user when question is answered
+- alert user when question is pending
+- alert admin when new question is added
+- custom 404 page
+- add view count to the question
+- add like count to the question
+- add comment count to the question
+- add share count to the question
+- add viewer who visit the page
+- add question status to the question
+- add toast when the message is sent
+- useActionState
+
+contact us page
+- add toast when the message is sent
+- validate the form
+
+
+$env:ANALYZE="true"; npm run build
+npx tsc --noEmit
+ 
