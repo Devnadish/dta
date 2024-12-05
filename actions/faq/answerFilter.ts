@@ -40,6 +40,7 @@ export async function GetQuestions(
   tag: string,
   search: string,
   mode: string,
+  sort: string,
   page: number = 1,
   limit: number = 10
 ) {
@@ -55,6 +56,8 @@ export async function GetQuestions(
     tag === undefined ? {} : { tagged: { some: { tag: tag.toLowerCase() } } };
 
   const searchCondition = getSearchCondition(search, mode);
+  const sortCondition =
+    sort === "newest" ? { updatedAt: "desc" } : { viewerCount: "desc" };
 
   const whereCondition = {
     ...baseCondition,
@@ -62,39 +65,21 @@ export async function GetQuestions(
     ...searchCondition,
   };
 
-  //   const test = await db.faq.findMany({
-  //     where: {
-  //       answers: {
-  //         some: {
-  //           content: {
-  //             contains: search,
-  //             mode: Prisma.QueryMode.insensitive,
-  //           },
-  //         },
-  //       },
-  //     },
-  //     include: {
-  //       answers: true,
-  //       tagged: true,
-  //     },
-  //     orderBy: { updatedAt: "desc" },
-  //     skip,
-  //     take: limit,
-  //   });
-  //   console.log("test:---------------", JSON.stringify(test, null, 2));
   const { QuestionsWithAnswers, QueryCont, pagesCount } = await quastionMode(
     whereCondition,
     skip,
-    limit
+    limit,
+    sortCondition
   );
-  console.log({ QuestionsWithAnswers, QueryCont, pagesCount });
+  // console.log({ QuestionsWithAnswers, QueryCont, pagesCount });
   return { QuestionsWithAnswers, QueryCont, pagesCount };
 }
 
 const quastionMode = async (
   whereCondition: any,
   skip: number,
-  limit: number
+  limit: number,
+  sortCondition: any
 ) => {
   try {
     const QueryCont = await db.faq.count({
@@ -104,7 +89,7 @@ const quastionMode = async (
     const QuestionsWithAnswers = await db.faq.findMany({
       where: whereCondition,
       include: { answers: true, tagged: true },
-      orderBy: { updatedAt: "desc" },
+      orderBy: sortCondition,
       skip,
       take: limit,
     });

@@ -2,6 +2,7 @@
 import {
   QuestionIconSetting,
   RemoveFilter,
+  SortIcon,
 } from "@/components/icons/FilterIcons";
 import { Button } from "@/components/ui/button";
 
@@ -15,12 +16,14 @@ type FilterResultProps = {
   mode: string;
   queryCount: number;
   pagesCount: number;
+  sort: string; // "asc" or "desc"
 };
 
 const FilterResult: React.FC<FilterResultProps> = ({
   tag,
   search,
   mode,
+  sort,
   queryCount,
   pagesCount,
 }) => {
@@ -40,7 +43,7 @@ const FilterResult: React.FC<FilterResultProps> = ({
     </div>
   );
 
-  const showClearButton = tag || search || mode;
+  const showClearButton = tag || search || mode || sort;
 
   return (
     <div className="flex gap-2 w-full items-center justify-between">
@@ -62,6 +65,11 @@ const FilterResult: React.FC<FilterResultProps> = ({
           renderFilterItem(
             <QuestionIconSetting className="w-4 h-4 text-muted-foreground" />,
             mode
+          )}
+        {sort &&
+          renderFilterItem(
+            <SortIcon className="w-4 h-4 text-muted-foreground" />,
+            sort
           )}
         {showClearButton && (
           <Button variant="outline" onClick={handleClear} disabled={isLoading}>

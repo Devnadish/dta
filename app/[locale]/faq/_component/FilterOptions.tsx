@@ -15,10 +15,8 @@ import QueryMode from "./QueryMode";
 import ClearButton from "./ClearButton";
 import SearchQuestions from "./SearchQuestions";
 import ApplayFilter from "./ApplayFilter";
-import {
-  MageFilter,
-  QuestionIconSetting,
-} from "@/components/icons/FilterIcons";
+import { MageFilter } from "@/components/icons/FilterIcons";
+import Sorting from "./Sorting";
 
 export default function FilterOptions({
   tags,
@@ -30,10 +28,11 @@ export default function FilterOptions({
   const [tagValue, setTagValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [queryMode, setQueryMode] = useState("questions");
+  const [sorting, setSorting] = useState("newest");
 
   return (
     <Sheet>
-      <SheetTrigger className=" px-4 py-2 flex items-center justify-center text-muted-foreground bg-secondary gap-4 rounded-xl">
+      <SheetTrigger className=" px-4 py-2 flex items-center justify-center text-muted-foreground bg-secondary gap-4 rounded-xl w-16">
         <MageFilter />
       </SheetTrigger>
       <SheetContent
@@ -53,6 +52,8 @@ export default function FilterOptions({
           setTagValue={setTagValue}
           setSearchValue={setSearchValue}
           setQueryMode={setQueryMode}
+          sorting={sorting}
+          setSorting={setSorting}
         />
       </SheetContent>
     </Sheet>
@@ -69,6 +70,8 @@ const Content = React.memo(
     setTagValue,
     setSearchValue,
     setQueryMode,
+    sorting,
+    setSorting,
   }: FilterOptionsProps) => {
     return (
       <div className="w-full flex flex-col items-center justify-center gap-4 border-t border-border pt-4">
@@ -83,6 +86,7 @@ const Content = React.memo(
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
+        <Sorting sorting={sorting} setSorting={setSorting} />
         <ClearButton
           tagValue={tagValue}
           searchValue={searchValue}
@@ -99,6 +103,8 @@ const Content = React.memo(
           setTagValue={setTagValue}
           setSearchValue={setSearchValue}
           setQueryMode={setQueryMode}
+          sorting={sorting}
+          setSorting={setSorting}
         />
       </div>
     );

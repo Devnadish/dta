@@ -13,6 +13,8 @@ const ApplayFilter = React.memo(
     setTagValue,
     setSearchValue,
     setQueryMode,
+    sorting,
+    setSorting,
   }: {
     tagValue: string;
     searchValue: string;
@@ -20,6 +22,8 @@ const ApplayFilter = React.memo(
     setTagValue: React.Dispatch<React.SetStateAction<string>>;
     setSearchValue: React.Dispatch<React.SetStateAction<string>>;
     setQueryMode: React.Dispatch<React.SetStateAction<string>>;
+    sorting: string;
+    setSorting: React.Dispatch<React.SetStateAction<string>>;
     // onClose: () => void;
   }) => {
     const router = useRouter();
@@ -42,6 +46,10 @@ const ApplayFilter = React.memo(
         query += `${query ? "&" : ""}mode=${encodeURIComponent(queryMode)}`;
       }
 
+      if (sorting) {
+        query += `${query ? "&" : ""}sort=${encodeURIComponent(sorting)}`;
+      }
+
       if (query) {
         await router.push(`/faq/ansewrd?${query}`);
       } else {
@@ -53,6 +61,7 @@ const ApplayFilter = React.memo(
       setTagValue("");
       setSearchValue("");
       setQueryMode("questions");
+      setSorting("newest");
       await router.push("/faq/ansewrd");
     };
 

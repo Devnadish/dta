@@ -30,7 +30,10 @@ export interface FilterOptionsProps {
   tagValue: string;
   searchValue: string;
   queryMode: string;
+  sorting: string;
+
   setTagValue: React.Dispatch<React.SetStateAction<string>>;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   setQueryMode: React.Dispatch<React.SetStateAction<string>>;
+  setSorting: React.Dispatch<React.SetStateAction<string>>;
 }

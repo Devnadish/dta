@@ -11,14 +11,20 @@ export default async function FAQ({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tag: string; search: string; mode: string }>;
+  searchParams: Promise<{
+    tag: string;
+    search: string;
+    mode: string;
+    sort: string;
+  }>;
 }) {
-  const { tag, search, mode } = await searchParams;
+  const { tag, search, mode, sort } = await searchParams;
 
   const { QuestionsWithAnswers, QueryCont, pagesCount } = await GetQuestions(
     tag,
     search,
     mode,
+    sort,
     1,
     10
   );
@@ -31,6 +37,7 @@ export default async function FAQ({
         tag={tag}
         search={search}
         mode={mode}
+        sort={sort}
         queryCount={QueryCont || 0}
         pagesCount={pagesCount || 0}
       />
