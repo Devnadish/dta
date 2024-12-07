@@ -31,7 +31,7 @@ function ShowDetailQuastion({
         className="flex flex-row items-center justify-between w-full  
        min-h-[40px] bg-secondary "
       >
-        <div>
+        <div className="flex flex-col  gap-2 items-start   w-full">
           <Q quastion={item?.question} auther={item?.userEmail} />
           <div className="flex flex-row items-center gap-3 ">
             <LoveItConter

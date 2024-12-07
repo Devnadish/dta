@@ -15,12 +15,15 @@ const UserInformation = async ({
 }) => {
   if (!email) return <Admin />;
   const user = await GetUserByEmail(email);
+  const fallback = user?.name?.[0] || email?.[0] || "D";
 
   return (
     <div className="flex items-center  flex-col md:flex-row md:gap-2 justify-center w-fit ">
       <Avatar className="w-6 h-6">
         <AvatarImage src={user?.image ?? ""} />
-        <AvatarFallback>{user?.name?.[0] || "D"}</AvatarFallback>
+        <AvatarFallback className="bg-greenColor text-foreground font-bold">
+          {fallback}
+        </AvatarFallback>
       </Avatar>
       {showName && (
         <div className="hidden md:flex flex-col w-full ">

@@ -13,7 +13,7 @@ const ViewerCounter = ({
   loveCount: number;
   dislikeCount: number;
 }) => (
-  <div className="flex items-center justify-center gap-2">
+  <div className="flex items-center justify-center gap-2 flex-col md:flex-row">
     <ShowCounters counter={viewerCount} icon={<Eye className="w-4 h-4" />} />
     <ShowCounters
       counter={loveCount}
