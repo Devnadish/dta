@@ -12,6 +12,8 @@ model faq {
   question     String   @default("")
   userEmail    String   @default("")
   viewerCount  Int      @default(0)
+  loveCount    Int      @default(0)
+  dislovCount Int      @default(0)
   answers      answer[]  
   tagged       tagged[]  
   published Boolean @default(false)
@@ -20,7 +22,22 @@ model faq {
   rejectedReason String @default("")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+ 
+  faqInteractions faqInteraction[]
 }
+model faqInteraction {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  faq        faq      @relation(fields: [faqId], references: [id])
+  faqId      String   @db.ObjectId
+  userEmail     String   @default("")
+  isLoved    Boolean  @default(false)
+  isDisliked Boolean  @default(false)
+
+  @@unique([faqId, userEmail])
+}
+
 
 model answer {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
@@ -28,6 +45,7 @@ model answer {
   content   String @default("")
   userEmail String @default("")
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   faq       faq    @relation(fields: [faqId], references: [id])
 }
 
@@ -139,3 +157,6 @@ model Authenticator {
  
   @@unique([userId, credentialID])
 }
+
+ 
+ 

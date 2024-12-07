@@ -23,3 +23,9 @@ contact us page
 $env:ANALYZE="true"; npm run build
 npx tsc --noEmit
  
+
+
+check if question slug is unique
+check if answer slug is unique
+add answer slug to the answer
+add question slug to the answer

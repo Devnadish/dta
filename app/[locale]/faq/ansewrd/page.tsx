@@ -1,5 +1,5 @@
 import AnsweredQuestions from "@/components/faq/AnsweredQuestions";
-import ShowQuastion from "../_component/ShowQuastion";
+import ShowQuastion from "../../../../components/faq/quastion/ShowQuastion";
 import FakFaq from "@/components/FakFaq";
 import { Suspense } from "react";
 import FilterResult from "./_component/FilterResult";
@@ -66,7 +66,7 @@ const ShowQuestions = ({
   QuestionsWithAnswers: any;
 }) => {
   return (
-    <div>
+    <div className="flex flex-col gap-4 w-full">
       {QuestionsWithAnswers.map((item: any) => {
         return <ShowQuastion item={item} key={item.id} />;
       })}
