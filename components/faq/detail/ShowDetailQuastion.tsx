@@ -1,4 +1,4 @@
-import { faq, answer, tagged } from "@prisma/client";
+import { faq, answer, tagged, comment } from "@prisma/client";
 import {
   Card,
   CardContent,
@@ -12,18 +12,22 @@ import ViewerCounter, {
 import TagList from "../quastion/TagList";
 import CreateAndUpdateDate from "../quastion/CreateAndUpdateDate";
 import UserInformation from "@/components/UserInformaton";
+import Answers from "./Answers";
 
 interface FaqWithAnswers extends faq {
   answers?: answer[];
   tagged?: tagged[];
+  comments?: comment[];
 }
 
 function ShowDetailQuastion({
   item,
   userEmail,
+  slug,
 }: {
   item: FaqWithAnswers;
   userEmail: string;
+  slug: string;
 }) {
   return (
     <Card>
@@ -47,7 +51,7 @@ function ShowDetailQuastion({
           </div>
         </div>
 
-        <div className="flex flex-row items-center gap-3 ">
+        <div className="flex flex-row items-center gap-3">
           <ViewerCounter
             viewerCount={item?.viewerCount}
             loveCount={item?.loveCount ?? 0}
@@ -64,7 +68,7 @@ function ShowDetailQuastion({
             updatedAt={item?.updatedAt}
           />
         </div>
-        <Answers answer={item?.answers} />
+        <Answers answer={item?.answers} userEmail={userEmail} slug={slug} />
       </CardContent>
     </Card>
   );
@@ -77,29 +81,6 @@ const Q = ({ quastion, auther }: { quastion: string; auther: string }) => {
     <div className="flex flex-row items-center gap-2 w-full  ">
       <UserInformation email={auther ?? ""} showName={false} />
       <p className="text-sm font-semibold text-foreground ">{quastion}</p>
-    </div>
-  );
-};
-const Answers = ({ answer }: { answer?: answer[] }) => {
-  if (!answer) return null;
-
-  return (
-    <div className="flex flex-col gap-2 w-full  items-end ">
-      {answer.map((item) => (
-        <div
-          key={item.id}
-          className="flex flex-row items-baseline  gap-2 w-[97%] bg-foreground/5 p-4 rounded-md  "
-        >
-          <UserInformation email={item.userEmail} showName={false} />
-          <p className="text-sm text-muted-foreground text-wrap">
-            {item.content}
-          </p>
-          <CreateAndUpdateDate
-            createdAt={item.createdAt}
-            updatedAt={item.updatedAt}
-          />
-        </div>
-      ))}
     </div>
   );
 };

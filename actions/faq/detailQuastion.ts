@@ -6,7 +6,7 @@ export async function GetDetailQuastion(slug: string) {
   const question = await db.faq.findUnique({
     where: { slug },
     include: {
-      answers: true,
+      answers: { include: { comments: true } },
       tagged: true,
     },
   });

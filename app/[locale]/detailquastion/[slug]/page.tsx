@@ -20,6 +20,7 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
       item={question}
       key={question.id}
       userEmail={userEmail ?? ""}
+      slug={slug}
     />
   );
 }

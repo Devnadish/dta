@@ -40,13 +40,30 @@ model faqInteraction {
 
 
 model answer {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  faqId     String @db.ObjectId
-  content   String @default("")
-  userEmail String @default("")
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  faqId     String    @db.ObjectId
+  content   String    @default("")
+  userEmail String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  faq       faq       @relation(fields: [faqId], references: [id])
+  comments  comment[] @relation("AnswerToComment")
+  
+  // Add a compound index on faqId and createdAt for efficient sorting
+  @@index([faqId, createdAt])
+}
+model comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  answer    answer   @relation("AnswerToComment", fields: [answerId], references: [id])
+  answerId  String   @db.ObjectId
+  content   String   @default("")
+  userEmail String   @default("")
+  userImage String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  faq       faq    @relation(fields: [faqId], references: [id])
+
+  // Add an index on answerId for efficient lookup
+  @@index([answerId])
 }
 
 model tagged   {

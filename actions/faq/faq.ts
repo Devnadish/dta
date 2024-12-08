@@ -172,8 +172,6 @@ export async function GetNotAnsweredQuations() {
 //     }),
 //   };
 
-//   console.log(whereCondition);
-
 //   try {
 //     const QuestionsWithAnswers = await db.faq.findMany({
 //       where: whereCondition,

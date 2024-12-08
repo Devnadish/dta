@@ -11,8 +11,8 @@ const CreateAndUpdateDate = ({
   createdAt?: Date;
   updatedAt?: Date;
 }) => (
-  <div className="flex items-center  flex-row  gap-2 justify-end w-full  ">
-    <div className="text-[10px]   text-muted-foreground flex items-center gap-2 ">
+  <div className="flex items-center  flex-row  gap-2 justify-end w-fit ">
+    <div className="text-[10px]   text-muted-foreground flex items-center gap-2 w-fit ">
       <Edit className="w-3 h-3 " />
       {dateToSting(updatedAt?.toString() ?? "")}
     </div>

@@ -13,7 +13,7 @@ const ViewerCounter = ({
   loveCount: number;
   dislikeCount: number;
 }) => (
-  <div className="flex items-center justify-center gap-2 flex-col md:flex-row">
+  <div className="flex items-center justify-end gap-1  flex-row   ">
     <ShowCounters counter={viewerCount} icon={<Eye className="w-4 h-4" />} />
     <ShowCounters
       counter={loveCount}
@@ -82,7 +82,7 @@ const ShowCounters = ({
   counter: number;
   icon: React.ReactNode;
 }) => (
-  <div className="rounded-md text-sm text-muted-foreground flex items-center justify-center w-12 h-5 border gap-1 px-1 bg-secondary border-border">
+  <div className="rounded-md text-xs text-muted-foreground flex items-center justify-center    border bg-secondary border-white/20 p-0 py-1 px-2">
     {icon}
     <p className="text-[10px]">{counter}</p>
   </div>

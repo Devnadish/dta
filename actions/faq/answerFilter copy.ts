@@ -60,14 +60,12 @@ export async function GetQuestions(
     tag === undefined ? {} : { tagged: { some: { tag: tag.toLowerCase() } } };
 
   const searchCondition = getSearchCondition(search, mode);
-  console.log(searchCondition);
 
   const whereCondition = {
     ...baseCondition,
     ...tagCondition,
     ...searchCondition,
   };
-  console.log({ whereCondition });
 
   const test = await db.answer.findMany({
     where: {
@@ -77,7 +75,6 @@ export async function GetQuestions(
       },
     },
   });
-  console.log({ test });
 
   try {
     const [QueryCont, QuestionsWithAnswers] = await Promise.all([

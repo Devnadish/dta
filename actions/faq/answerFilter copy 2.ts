@@ -87,7 +87,6 @@ export async function GetQuestions(
     skip,
     take: limit,
   });
-  console.log("test:---------------", JSON.stringify(test,null,2));
 
   if (mode === undefined) {
     const { QuestionsWithAnswers, QueryCont, pagesCount } = await quastionMode(
@@ -95,7 +94,6 @@ export async function GetQuestions(
       skip,
       limit
     );
-    // console.log({ QuestionsWithAnswers, QueryCont, pagesCount });
     return { QuestionsWithAnswers, QueryCont, pagesCount };
   } else {
     const { QuestionsWithAnswers } = await answerMode(search, skip, limit);
@@ -149,7 +147,6 @@ const answerMode = async (search: any, skip: number, limit: number) => {
     });
 
     const faqIds = answers.map((answer) => answer.faqId);
-    // console.log(faqIds);
 
     const QuestionsWithAnswers = await db.faq.findMany({
       where: {
@@ -162,7 +159,6 @@ const answerMode = async (search: any, skip: number, limit: number) => {
         tagged: true,
       },
     });
-    // console.log(QuestionsWithAnswers);
 
     return { QuestionsWithAnswers };
   } catch (error) {

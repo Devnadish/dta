@@ -71,7 +71,6 @@ export async function GetQuestions(
     limit,
     sortCondition
   );
-  // console.log({ QuestionsWithAnswers, QueryCont, pagesCount });
   return { QuestionsWithAnswers, QueryCont, pagesCount };
 }
 

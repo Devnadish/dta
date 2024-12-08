@@ -5,6 +5,7 @@ import React from "react";
 import Link from "next/link";
 import { incrementViewerCount } from "@/actions/faq/detailQuastion";
 import { useRouter } from "next/navigation";
+import { ChevronRightIcon } from "lucide-react";
 const More = ({ slug, AnswerCount }: { slug: string; AnswerCount: number }) => {
   const router = useRouter();
 
@@ -17,13 +18,10 @@ const More = ({ slug, AnswerCount }: { slug: string; AnswerCount: number }) => {
     <div className="flex items-center justify-between w-full">
       <div className="flex items-center gap-4 text-sm text-muted-foreground">
         <AnswerCounter count={AnswerCount} />
-        <CommentCounter count={0} />
+        {/* <CommentCounter count={0} /> */}
       </div>
-      <Button
-        onClick={handleMore}
-        className="flex items-center justify-center w-16   rounded-md px-2 py-1"
-      >
-        More
+      <Button onClick={handleMore} variant={"outline"}>
+        Read More Add comments <ChevronRightIcon className="w-4 h-4" />
       </Button>
     </div>
   );
