@@ -1,5 +1,5 @@
 import AnsweredQuestions from "@/components/faq/AnsweredQuestions";
-import ShowQuastion from "../../../../components/faq/quastion/ShowQuastion";
+import ShowQuastion from "@/components/faq/quastion/ShowQuastion";
 import FakFaq from "@/components/FakFaq";
 import { Suspense } from "react";
 import FilterResult from "./_component/FilterResult";
@@ -67,6 +67,7 @@ const ShowQuestions = ({
 }) => {
   return (
     <div className="flex flex-col gap-4 w-full">
+      {/* <VoiceRecorder /> */}
       {QuestionsWithAnswers.map((item: any) => {
         return <ShowQuastion item={item} key={item.id} />;
       })}

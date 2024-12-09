@@ -9,6 +9,9 @@ import { submitFaq } from "@/actions/faq/submitFaq";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from "next-intl";
 import LoaderComponent from "../Loader";
+import VoiceRecorder from "../VoiceRecorder";
+import MicrophonePermission from "../CheckMic";
+import AudioRecorder from "../MicRecored";
 
 const FaqForm = memo(({ onClose, user }) => {
   const [question, setQuestion] = useState("");
@@ -54,6 +57,9 @@ const FaqForm = memo(({ onClose, user }) => {
         name="question"
         required
       />
+      {/* <MicrophonePermission /> */}
+       <AudioRecorder   maxRecordingTime={10} />
+     
       <Button
         type="submit"
         className="bg-green-500 hover:bg-green-600 text-white"

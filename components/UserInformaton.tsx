@@ -21,7 +21,7 @@ const UserInformation = async ({
     <div className="flex items-center  flex-col md:flex-row md:gap-2 justify-center w-fit ">
       <Avatar className="w-6 h-6">
         <AvatarImage src={user?.image ?? ""} />
-        <AvatarFallback className="bg-white/30 text-foreground font-semibold capitalize">
+        <AvatarFallback className="bg-white/30 text-foreground font-semibold capitalize text-sm">
           {fallback}
         </AvatarFallback>
       </Avatar>

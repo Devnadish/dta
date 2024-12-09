@@ -1,4 +1,4 @@
-import ShowQuastion from "@/app/[locale]/faq/_component/ShowQuastion";
+import ShowQuastion from "@/components/faq/quastion/ShowQuastion";
 import { faq } from "@prisma/client";
 
 function UserQuastion({
