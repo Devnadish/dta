@@ -55,6 +55,7 @@
     "nuqs": "^2.2.3",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "react-dropzone": "^14.3.5",
     "react-hook-form": "^7.53.2",
     "react-mic": "^12.4.6",
     "rtl-detect": "^1.1.2",

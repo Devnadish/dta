@@ -21,5 +21,5 @@ export async function submitFaq(question: string, userEmail: string) {
     },
   });
   revalidatePath("/faq/notanswered");
-  return res;
+  return {error :"no Error"};
 }

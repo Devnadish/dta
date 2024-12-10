@@ -9,18 +9,19 @@ import { submitFaq } from "@/actions/faq/submitFaq";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from "next-intl";
 import LoaderComponent from "../Loader";
-import VoiceRecorder from "../VoiceRecorder";
-import MicrophonePermission from "../CheckMic";
-import AudioRecorder from "../MicRecored";
+import { RecordQuestion } from "./quastion/RecordQuestion";
+import ImageQuestion from "./quastion/ImageQuestion";
 
 const FaqForm = memo(({ onClose, user }) => {
   const [question, setQuestion] = useState("");
   const { toast } = useToast();
 
   const userEmail = user.user.email;
+ 
 
   const handleSubmit = async (formData) => {
     const question = formData.get("question");
+
 
     if (!question.trim()) {
       toast({
@@ -58,14 +59,19 @@ const FaqForm = memo(({ onClose, user }) => {
         required
       />
       {/* <MicrophonePermission /> */}
-       <AudioRecorder   maxRecordingTime={10} />
-     
-      <Button
+       <div className="flex flex-row items-center justify-center gap-4 w-full h-11">
+       <RecordQuestion />
+       <ImageQuestion   />
+       <Button
         type="submit"
-        className="bg-green-500 hover:bg-green-600 text-white"
+        className="bg-green-500 hover:bg-green-600 text-white w-full"
       >
         Save
       </Button>
+
+       </div>
+       
+      
     </form>
   );
 });

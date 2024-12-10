@@ -9,7 +9,7 @@ interface AudioRecorderProps {
     maxRecordingTime: number; // Maximum recording time in seconds
 }
 
-const AudioRecorder: React.FC<AudioRecorderProps> = ({ uploadUrl, maxRecordingTime }) => {
+const AudioRecorder: React.FC<AudioRecorderProps> = ({ uploadUrl, maxRecordingTime }: { uploadUrl: string, maxRecordingTime: number }) => {
     const [recording, setRecording] = useState(false);
     const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
     const [recordingTime, setRecordingTime] = useState(0);

@@ -6,11 +6,13 @@ import { getTranslations } from "next-intl/server";
 import MustLogin from "@/components/MustLogin";
 import NavLinks from "./_component/NavLinks";
 import { FaqCounter } from "@/actions/faq/faq";
+import Link from "next/link";
 
 const Footer = ({ userData }: { userData: any }) => {
   return (
     <footer className="fixed bottom-0 left-0 w-full p-4 bg-secondary border-t-2 border-yellowColor h-14 flex justify-center items-center">
       {userData ? <AddFaq user={userData} /> : <MustLogin />}
+      <Link href="/faq/addquastion" className="bg-yellowColor text-black hover:bg-green-600 hover:text-white">new</Link>
     </footer>
   );
 };
