@@ -5,6 +5,7 @@ import StatisticsBox from "./_component/StatisticsBox";
 import UserInfoBox from "./_component/UserInfoBox";
 import ProfileAvatar from "./_component/ProfileAvatar";
 import UserQuastion from "./_component/UserQuastion";
+import LogingOut from "./_component/LogingOut";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,7 @@ export default async function Page({
         src={userHistory?.image ?? undefined}
         name={userHistory?.name ?? undefined}
       />
+      <LogingOut />
       <UserInfoBox userHistory={userHistory} currentBalance={currentBalance} />
       <StatisticsBox
         QuestionsWithAnswers={QuestionsWithAnswers}
@@ -45,3 +47,4 @@ export default async function Page({
     </div>
   );
 }
+

@@ -63,3 +63,7 @@ const NoRejected = ({ title }: { title: string }) => (
     <Smile className="text-4xl" size={50} />
   </div>
 );
+
+
+
+

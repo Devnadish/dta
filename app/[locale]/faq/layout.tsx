@@ -4,89 +4,108 @@ import AddFaq from "@/components/faq/AddFaq";
 
 import { getTranslations } from "next-intl/server";
 import MustLogin from "@/components/MustLogin";
-import NavLinks from "./_component/NavLinks";
 import { FaqCounter } from "@/actions/faq/faq";
 import Link from "next/link";
+import { FluentChatAdd16Regular } from "@/components/icons/QIcon";
+import ShowQuastionType, { NavLinks } from "./_component/NavLinks";
 
-const Footer = ({ userData }: { userData: any }) => {
-  return (
-    <footer className="fixed bottom-0 left-0 w-full p-4 bg-secondary border-t-2 border-yellowColor h-14 flex justify-center items-center">
-      {userData ? <AddFaq user={userData} /> : <MustLogin />}
-      <Link href="/faq/addquastion" className="bg-yellowColor text-black hover:bg-green-600 hover:text-white">new</Link>
-    </footer>
-  );
-};
-
+interface LinkTitle {
+  pending: string;
+  answered: string;
+  rejected: string;
+}
 // New FAQSection component
-const FAQSection = ({
-  t,
+const FAQSection = async ({
   user,
   answered,
   pending,
   rejected,
 }: {
-  t: any;
   user: any;
   answered: any;
   pending: any;
   rejected: any;
 }) => {
-  return (
-    <>
-      <div className="flex flex-col md:flex-row gap-4 w-full justify-between">
-        <WelcomeMessage t={t} user={user} />
-        <NavLinks answered={answered} pending={pending} rejected={rejected} />
-      </div>
-      <h3 className="text-xs sm:text-sm text-muted-foreground font-cairo mb-4 flex items-center justify-end w-full">
-        {t("Faq.notPerfect")}
-      </h3>
-    </>
-  );
-};
+  const t = await getTranslations("Faq");
+  const linkTitle: LinkTitle = {
+    pending: t("pending"),
+    answered: t("answered"),
+    rejected: t("rejected"),
+  };
+  // console.log(LinkTitle)
 
-const WelcomeMessage = ({ t, user }: { t: any; user: any }) => {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-row gap-2 md:items-end md:justify-start">
-        <h1 className="text-sm md:text-2xl font-bold font-cairo">
-          {t("Faq.pagetitle")}
-        </h1>
-        {user ? (
-          <p className="text-foreground/80 font-cairo text-xs">
-            {t("Faq.welcome")} {user.name}
-          </p>
-        ) : (
-          <MustLogin />
-        )}
+    <div className="sticky top-16 left-0 z-50 flex flex-col items-center justify-between w-full  ">
+      <WelcomeMessage t={t} user={user} />
+
+      <div className="flex flex-row gap-4 w-full justify-between  items-center p-2 rounded-lg bg-white/20 backdrop-blur-3xl shadow-lg">
+        <AddquastionButton title={t("addFaq")} />
+
+        {/* <div className="flex flex-col gap-1 justify-between "> */}
+        <ShowQuastionType
+          answeredQuestions={answered}
+          pendingQuestions={pending}
+          rejectedQuestions={rejected}
+          msgHint={t("notPerfect")}
+          linkTitle={linkTitle}
+        />
+        <div className="hidden md:flex md:flex-col w-full">
+          <NavLinks
+            answeredQuestions={answered}
+            pendingQuestions={pending}
+            rejectedQuestions={rejected}
+            linkTitle={linkTitle}
+          />
+
+        </div>
+
       </div>
     </div>
   );
 };
 
+const AddquastionButton = ({ title }: { title: string }) => {
+  return (
+    <div className="min-w-36 max-w-36">
+      <Link
+        href="/addquastion"
+        className="bg-orangeColor text-foreground hover:bg-green-600 rounded-t-lg flex items-center justify-center w-full  py-1 px-3 gap-3 font-cairo "
+      >
+        {" "}
+        <FluentChatAdd16Regular width={24} height={24} /> {title}{" "}
+      </Link>
+      <div className="w-full h-1 bg-primary animate-pulse"></div>
+    </div>
+  );
+};
+
+const WelcomeMessage = ({ t, user }: { t: any; user: any }) => {
+  return (
+    <div className="self-start flex items-center justify-between w-full flex-row">
+      {user ? (
+        <p className="text-foreground/80 font-cairo text-xs  ">
+          {t("welcome")} {user.name}
+        </p>
+      ) : (
+        <MustLogin />
+      )}
+      <h3 className="hidden text-xs text-muted-foreground font-amiri  md:flex items-center">
+        {t("notPerfect")}
+      </h3>
+    </div>
+  );
+};
+
 const fetchFaqData = async (locale: string) => {
-  const t = await getTranslations();
   const session = await auth();
   const { answeredQuestions, pendingQuestions, rejectedQuestions } =
     await FaqCounter();
 
   return {
-    t,
     session,
-    answered: {
-      name: t("Faq.answered"),
-      href: `/${locale}/faq`,
-      count: answeredQuestions,
-    },
-    rejected: {
-      name: t("Faq.rejected"),
-      href: `/${locale}/faq/rejected`,
-      count: rejectedQuestions,
-    },
-    pending: {
-      name: t("Faq.pending"),
-      href: `/${locale}/faq/notanswered`,
-      count: pendingQuestions,
-    },
+    answeredQuestions,
+    rejectedQuestions,
+    pendingQuestions,
   };
 };
 // Update DashboardLayout component
@@ -100,27 +119,25 @@ const DashboardLayout = async ({
 }) => {
   const { locale } = await params;
 
-  const { t, session, answered, rejected, pending } =
+  const { session, answeredQuestions, rejectedQuestions, pendingQuestions } =
     await fetchFaqData(locale);
 
   const userData = {
     user: session?.user,
-    answeredQuestions: answered.count,
-    pendingQuestions: pending.count,
-    rejectedQuestions: rejected.count,
+    answeredQuestions: answeredQuestions,
+    pendingQuestions: pendingQuestions,
+    rejectedQuestions: rejectedQuestions,
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full gap-3">
+    <div className="relative flex flex-col min-h-screen w-full gap-3">
       <FAQSection
-        t={t}
         user={session?.user}
-        answered={answered}
-        pending={pending}
-        rejected={rejected}
+        answered={answeredQuestions}
+        pending={pendingQuestions}
+        rejected={rejectedQuestions}
       />
       <main className="flex-grow w-full">{children}</main>
-      <Footer userData={userData} />
     </div>
   );
 };
