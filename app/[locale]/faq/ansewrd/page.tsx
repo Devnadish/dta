@@ -11,6 +11,7 @@ import NavLinks from "../_component/NavLinks";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { FluentChatAdd16Regular } from "@/components/icons/QIcon";
+import FaqSkelton from "@/components/skelton/FaqSkelton";
 
 export default async function FAQ({
   params,
@@ -37,6 +38,7 @@ export default async function FAQ({
 
   return (
     <div className="flex flex-col gap-2 w-full  ">
+      {/* <FaqSkelton /> */}
       {/* <FakFaq /> */}
       {/* <Link href="/faq/addquastion" className="fixed bottom-16 left-5 size-12 rounded-full flex items-center justify-center bg-blueColor text-foreground hover:bg-orangeColor hover:text-white animate-pulse">  <FluentChatAdd16Regular />
       </Link>

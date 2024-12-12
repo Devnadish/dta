@@ -37,7 +37,7 @@ const ShowQuastionType = ({
   return (
     <div className="md:hidden">
       <Sheet >
-        <SheetTrigger className=" p-2 flex items-center justify-center text-muted-foreground bg-secondary  rounded-xl ">
+        <SheetTrigger className=" p-2 flex items-center justify-center text-muted-foreground bg-secondary  rounded-md ">
           <CircumFilter />
         </SheetTrigger>
         <SheetContent

@@ -47,7 +47,7 @@ const FilterResult: React.FC<FilterResultProps> = ({
 
   return (
     <div className="flex gap-2 w-full items-center justify-between">
-      <div className="flex items-center gap-4 bg-secondary rounded-xl py-1 px-2">
+      <div className="flex items-center gap-4 bg-secondary rounded-md py-1 px-2">
         {!showClearButton && (
           <p className="text-muted-foreground">All Questions</p>
         )}
@@ -81,7 +81,7 @@ const FilterResult: React.FC<FilterResultProps> = ({
           </Button>
         )}
       </div>
-      <div className="bg-secondary rounded-xl py-1 px-2">
+      <div className="bg-secondary rounded-md py-1 px-2">
         <p className="text-muted-foreground text-xs">
           {queryCount} / {pagesCount}
         </p>

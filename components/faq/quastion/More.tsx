@@ -15,10 +15,10 @@ const More = ({ slug, AnswerCount }: { slug: string; AnswerCount: number }) => {
   };
 
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
       <div className="flex items-center gap-4 text-sm text-muted-foreground">
         <AnswerCounter count={AnswerCount} />
-        {/* <CommentCounter count={0} /> */}
+        <CommentCounter count={0} />
       </div>
       <Button onClick={handleMore} variant={"outline"}>
         Read More Add comments <ChevronRightIcon className="w-4 h-4" />

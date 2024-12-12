@@ -32,7 +32,7 @@ export default function FilterOptions({
 
   return (
     <Sheet>
-      <SheetTrigger className=" px-4 py-2 flex items-center justify-center text-muted-foreground bg-secondary gap-4 rounded-xl w-16">
+      <SheetTrigger className=" px-4 py-2 flex items-center justify-center text-muted-foreground bg-secondary gap-4 rounded-md w-16">
         <MageFilter />
       </SheetTrigger>
       <SheetContent

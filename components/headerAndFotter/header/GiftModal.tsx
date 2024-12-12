@@ -60,7 +60,7 @@ export default function GiftModal({
                   e.stopPropagation()
                 }
                 className={cn(
-                  "relative w-full max-w-lg cursor-default overflow-hidden rounded-xl  bg-foreground py-2 px-4  shadow-2xl ",
+                  "relative w-full max-w-lg cursor-default overflow-hidden rounded-md  bg-foreground py-2 px-4  shadow-2xl ",
                   {
                     "max-w-sm": modalSize === "sm",
                   }

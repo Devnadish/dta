@@ -19,12 +19,12 @@ interface FaqWithAnswers extends faq {
 
 function ShowQuastion({ item }: { item: FaqWithAnswers }) {
   return (
-    <Card>
+    <Card className="rounded-md border-foreground/20">
       <CardHeader
         className="flex flex-col items-center justify-between w-full  
-       min-h-[40px] bg-secondary "
+       min-h-[40px] bg-secondary rounded-t-md "
       >
-        <div className="flex flex-row items-center justify-between w-full  ">
+        <div className="flex flex-col  md:flex-row items-center justify-between w-full gap-1  ">
           <CreateAndUpdateDate
             createdAt={item?.createdAt}
             updatedAt={item?.updatedAt}
@@ -35,6 +35,7 @@ function ShowQuastion({ item }: { item: FaqWithAnswers }) {
             dislikeCount={item?.dislovCount ?? 0}
           />
         </div>
+
         <Q quastion={item?.question} auther={item?.userEmail} />
       </CardHeader>
 
@@ -43,9 +44,9 @@ function ShowQuastion({ item }: { item: FaqWithAnswers }) {
           <TagList tags={item?.tagged?.map((tag) => tag.tag)} />
         </div>
         <OneAnswer answer={item?.answers} />
-        <CardFooter className="flex flex-row items-center justify-end w-full">
-          <More slug={item?.slug} AnswerCount={item?.answers?.length ?? 0} />
-        </CardFooter>
+        {/* <CardFooter className="flex flex-row items-center justify-end w-full"> */}
+        <More slug={item?.slug} AnswerCount={item?.answers?.length ?? 0} />
+        {/* </CardFooter> */}
       </CardContent>
     </Card>
   );
