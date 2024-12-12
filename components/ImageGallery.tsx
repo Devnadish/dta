@@ -42,13 +42,15 @@ function ImageGallery({
             className="relative w-[300px] h-[300px] group overflow-hidden rounded-lg shadow-lg border p-4"
           >
             <Image
-              src={image}
-              alt={`Gallery image ${index + 1} - ${altTitle}`}
-              fill
-              className="object-contain transition-transform duration-300 transform group-hover:scale-105"
-              loading="lazy"
-              onLoad={() => setLoading(false)}
-            />
+  src={image}
+  alt={`Gallery image ${index + 1} - ${altTitle}`}
+  fill
+  className="object-contain transition-transform duration-300 transform group-hover:scale-105"
+  loading="lazy"
+  onLoad={() => setLoading(false)}
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+  quality={75}
+/>
             <div onClick={() => handleExpandClick(image)}>
               <ShowImage
                 selectedImage={selectedImage}

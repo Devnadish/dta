@@ -9,16 +9,6 @@ import { RecordQuestion } from '@/components/faq/quastion/RecordQuestion';
 import AudioRecorder from '@/components/MicRecored';
 import LoaderComponent from '@/components/Loader';
 import { motion, AnimatePresence } from "framer-motion";
-
-
-// Types
-interface FaqFormData {
-    question: string;
-    priority: number;
-    images: File[];
-    voiceRecording?: File;
-}
-
 // Policy Hints Component
 const PolicyHints = ({ 
     showPolicyHint, 
@@ -118,126 +108,6 @@ const PolicyHints = ({
     );
 };
 
-// Question Input Component
-const QuestionInput = ({ 
-    question,
-    setQuestion,
-    onError
-}: { 
-    question: string;
-    setQuestion: (question: string) => void;
-    onError: (message: string) => void;
-}) => {
-    const MAX_LENGTH = 500;
-    const MIN_LENGTH = 10;
-    
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value;
-        
-        // Prevent exceeding max length
-        if (value.length > MAX_LENGTH) {
-            onError(`Question cannot exceed ${MAX_LENGTH} characters`);
-            return;
-        }
-        
-        setQuestion(value);
-    };
-
-    const getRemainingChars = () => MAX_LENGTH - question.length;
-    
-    const getCharacterCountColor = () => {
-        const remaining = getRemainingChars();
-        if (question.length < MIN_LENGTH) return "text-red-500";
-        if (remaining < MAX_LENGTH * 0.2) return "text-orange-500";
-        return "text-gray-500";
-    };
-
-    const isValidLength = question.length >= MIN_LENGTH && question.length <= MAX_LENGTH;
-    const hasSpecialCharsOnly = /^[^a-zA-Z0-9]+$/.test(question);
-    const isValid = isValidLength && !hasSpecialCharsOnly;
-
-    const handleClear = () => {
-        setQuestion("");
-    };
-
-    return (
-        <div className="w-full space-y-2">
-            <div className="flex justify-between items-center">
-                <label className="block text-sm font-medium">Your Question</label>
-                <span className={`text-xs ${getCharacterCountColor()}`}>
-                    {getRemainingChars()} characters remaining
-                </span>
-            </div>
-            <div className="relative">
-                <Textarea
-                    value={question}
-                    onChange={handleChange}
-                    placeholder="Type your question here... (min 10 characters)"
-                    className={`min-h-[100px] bg-gray-100 dark:bg-gray-700 rounded-md pr-16 ${
-                        !isValid && question.length > 0 ? 'border-red-500' : ''
-                    }`}
-                    maxLength={MAX_LENGTH}
-                />
-                <div className="absolute bottom-2 right-2 flex gap-2 items-center">
-                    {question.length > 0 && (
-                        <button
-                            onClick={handleClear}
-                            className="text-gray-500 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
-                            title="Clear text"
-                        >
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                width="16" 
-                                height="16" 
-                                viewBox="0 0 24 24" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                strokeWidth="2" 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round"
-                            >
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="15" y1="9" x2="9" y2="15"/>
-                                <line x1="9" y1="9" x2="15" y2="15"/>
-                            </svg>
-                        </button>
-                    )}
-                    <div className={`text-xs font-medium ${getCharacterCountColor()} bg-white dark:bg-gray-800 px-2 py-1 rounded-full shadow-sm`}>
-                        {getRemainingChars()}
-                    </div>
-                </div>
-            </div>
-            
-            {/* Validation Messages */}
-            <div className="text-xs space-y-1">
-                {question.length > 0 && (
-                    <>
-                        {question.length < MIN_LENGTH && (
-                            <p className="text-red-500">
-                                ⚠️ Question must be at least {MIN_LENGTH} characters long
-                            </p>
-                        )}
-                        {hasSpecialCharsOnly && (
-                            <p className="text-red-500">
-                                ⚠️ Question cannot contain only special characters
-                            </p>
-                        )}
-                        {getRemainingChars() < MAX_LENGTH * 0.2 && (
-                            <p className="text-orange-500">
-                                ℹ️ Only {getRemainingChars()} characters remaining
-                            </p>
-                        )}
-                    </>
-                )}
-                <ul className="text-gray-500 list-disc pl-4 pt-1">
-                    <li>Must be between {MIN_LENGTH} and {MAX_LENGTH} characters</li>
-                    <li>Cannot contain only special characters</li>
-                    <li>Should be clear and specific</li>
-                </ul>
-            </div>
-        </div>
-    );
-};
 // Priority Selector Component
 const PrioritySelector = ({ 
     priority, 
@@ -249,7 +119,7 @@ const PrioritySelector = ({
     return (
         <div className="mt-4">
             <label className="block text-sm font-medium mb-2">Priority Level</label>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((level) => (
                     <Button
                         key={level}
@@ -271,26 +141,13 @@ const PrioritySelector = ({
 // Media Upload Section Component
 const MediaUploadSection = ({ 
     images, 
-    setImages,
-    voiceRecording,
-    setVoiceRecording,
+    setImages, 
     planLimits 
 }: { 
     images: File[]; 
-    setImages: React.Dispatch<React.SetStateAction<File[]>>;
-    voiceRecording: File | undefined;
-    setVoiceRecording: (file: File | undefined) => void;
+    setImages: React.Dispatch<React.SetStateAction<File[]>>; 
     planLimits: { images: number; voiceMinutes: number; }; 
 }) => {
-    const handleVoiceUpload = (blob: Blob) => {
-        // Convert Blob to File
-        const file = new File([blob], 'voice-recording.webm', {
-            type: blob.type,
-            lastModified: Date.now()
-        });
-        setVoiceRecording(file);
-    };
-
     return (
         <>
             <div className="mt-6">
@@ -302,7 +159,7 @@ const MediaUploadSection = ({
                 </div>
                 <ImageDropzone 
                     images={images} 
-                    setImages={setImages}
+                    setImages={setImages} 
                     maxFiles={planLimits.images}
                 />
             </div>
@@ -316,25 +173,28 @@ const MediaUploadSection = ({
                 </div>
                 <AudioRecorder 
                     uploadUrl="https://api.dreamto.app/api/upload" 
-                    maxRecordingTime={planLimits.voiceMinutes * 60}
-                    onRecordingComplete={handleVoiceUpload}
+                    maxRecordingTime={planLimits.voiceMinutes * 60} 
                 />
             </div>
         </>
     );
 };
 
+interface Qusation {
+    Askquestion: string;
+    setAskQuestion: React.Dispatch<React.SetStateAction<string>>;
+    handleSave?: () => void;
+    userName?: string;
+    priority: number;
+    setPriority: React.Dispatch<React.SetStateAction<number>>;
+}
+
 function Page() {
-    // Centralized state
-    const [formData, setFormData] = useState<FaqFormData>({
-        question: "",
-        priority: 1,
-        images: [],
-        voiceRecording: undefined
-    });
+    const [images, setImages] = useState<File[]>([]);
+    const [Askquestion, setAskQuestion] = useState("");
+    const [priority, setPriority] = useState(1);
     const [isMounted, setIsMounted] = useState(false);
     const [showPolicyHint, setShowPolicyHint] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const userPlan = "basic"; // This should come from your user context/authentication
 
@@ -342,17 +202,8 @@ function Page() {
         setIsMounted(true);
     }, []);
 
-    const getPlanLimits = () => {
-        const plans = {
-            basic: { images: 1, voiceMinutes: 1 },
-            premium: { images: 5, voiceMinutes: 5 },
-            enterprise: { images: 10, voiceMinutes: 10 }
-        };
-        return plans[userPlan as keyof typeof plans];
-    };
-
-    const handleSubmit = async () => {
-        if (!formData.question.trim()) {
+    const handleSave = async () => {
+        if (!Askquestion.trim()) {
             toast({
                 title: "Error",
                 description: "Please enter your question",
@@ -361,38 +212,28 @@ function Page() {
             return;
         }
 
-        setIsSubmitting(true);
         try {
-            // Here you would typically make an API call
-            // await submitFaq({
-            //     question: formData.question,
-            //     priority: formData.priority,
-            //     images: formData.images,
-            //     voiceRecording: formData.voiceRecording,
-            //     userPlan
-            // });
-
-            toast({
-                title: "Success",
-                description: "Your question has been submitted successfully",
-            });
-
-            // Reset form after successful submission
-            setFormData({
-                question: "",
-                priority: 1,
-                images: [],
-                voiceRecording: undefined
+            console.log('Saving question:', { 
+                question: Askquestion, 
+                priority,
+                images,
             });
         } catch (error) {
             toast({
                 title: "Error",
-                description: "Failed to submit question. Please try again.",
+                description: "Failed to submit question",
                 variant: "destructive",
             });
-        } finally {
-            setIsSubmitting(false);
         }
+    };
+
+    const getPlanLimits = () => {
+        const plans = {
+            basic: { images: 1, voiceMinutes: 1 },
+            premium: { images: 5, voiceMinutes: 5 },
+            enterprise: { images: 10, voiceMinutes: 10 }
+        };
+        return plans[userPlan as keyof typeof plans];
     };
 
     if (!isMounted) return <LoaderComponent />;
@@ -410,32 +251,30 @@ function Page() {
                         setShowPolicyHint={setShowPolicyHint} 
                     />
 
-                    <QuestionInput 
-                        question={formData.question}
-                        setQuestion={(question) => setFormData(prev => ({ ...prev, question }))}
-                        onError={(message) => toast({ title: "Error", description: message, variant: "destructive" })}
+                    <TextQuastion 
+                        Askquestion={Askquestion} 
+                        setAskQuestion={setAskQuestion}
+                        priority={priority}
+                        setPriority={setPriority}
                     />
 
                     <PrioritySelector 
-                        priority={formData.priority} 
-                        setPriority={(priority) => setFormData(prev => ({ ...prev, priority }))}
+                        priority={priority} 
+                        setPriority={setPriority} 
                     />
 
                     <MediaUploadSection 
-                        images={formData.images}
-                        setImages={(images) => setFormData(prev => ({ ...prev, images: Array.isArray(images) ? images : prev.images }))}
-                        voiceRecording={formData.voiceRecording}
-                        setVoiceRecording={(file) => setFormData(prev => ({ ...prev, voiceRecording: file }))}
-                        planLimits={planLimits}
+                        images={images} 
+                        setImages={setImages} 
+                        planLimits={planLimits} 
                     />
 
                     <div className="mt-6">
                         <Button 
-                            onClick={handleSubmit}
+                            onClick={handleSave}
                             className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-                            disabled={isSubmitting}
                         >
-                            {isSubmitting ? 'Submitting...' : 'Submit Question'}
+                            Submit Question
                         </Button>
                     </div>
                 </div>
@@ -445,3 +284,60 @@ function Page() {
 }
 
 export default Page;
+const TextQuastion = ({ Askquestion, setAskQuestion, userName }: Qusation) => {
+    const { toast } = useToast();
+
+    const handleSubmit = async (formData: FormData) => {
+        const question = formData.get("question");
+        const userEmail = "userEmail"
+
+        if (!question || !question.toString().trim()) {
+            toast({
+                title: "Error",
+                description: "Question is required",
+            });
+            return;
+        }
+
+        const result = await submitFaq(question.toString(), userEmail); // Ensure usernamed is defined
+
+        if (result.error) {
+            toast({
+                title: "Error",
+                description: "Question already exists",
+            });
+        } else {
+            toast({
+                title: "Success",
+                description: "Question added successfully. Will respond soon.",
+            });
+            setAskQuestion("");
+        }
+    };
+
+    return (
+        <form action={handleSubmit} className="flex flex-col gap-4 w-full">
+            <Textarea
+                placeholder="Question"
+                value={Askquestion}
+                onChange={(e) => setAskQuestion(e.target.value)}
+                className="min-h-[100px]"
+                name="question" // Changed from "Question" to "question"
+                required
+            />
+            <div className="flex flex-row items-center justify-center gap-4 w-full h-11">
+                <Button
+                    type="submit"
+                    className="bg-green-500 hover:bg-green-600 text-white w-full"
+                >
+                    Save
+                </Button>
+            </div>
+        </form>
+    );
+}
+
+
+
+
+
