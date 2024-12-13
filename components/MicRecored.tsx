@@ -153,6 +153,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
                         </Button>
                     )}
                     {audioUrl && !recording && (
+                        <>
                         <Button
                             onClick={togglePlayback}
                             variant="outline"
@@ -165,6 +166,15 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
                                 <Play className="h-4 w-4" />
                             )}
                         </Button>
+                        <Button 
+                        onClick={clearRecording} 
+                        variant="outline"
+                            size="icon"
+                            title={"clear"}
+                    >
+                        <Trash className="h-4 w-4  text-destructive"  />
+                    </Button>
+                        </>
                     )}
                 </div>
             </div>
@@ -179,29 +189,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
                 />
             )}
 
-            {recordedBlob && (
-                <div className="flex items-center gap-2">
-                    <Button 
-                        onClick={handleUpload} 
-                        variant="outline" 
-                        size="sm"
-                        title="Upload recording"
-                    >
-                        <Upload className="h-4 w-4 mr-2" />
-                        Upload
-                    </Button>
-                    <Button 
-                        onClick={clearRecording} 
-                        variant="ghost" 
-                        size="sm"
-                        title="Clear recording"
-                    >
-                        <Trash className="h-4 w-4 mr-2" />
-                        Clear
-                    </Button>
-                </div>
-            )}
-
+           
             <div className="text-sm text-gray-500">
                 Recording time: {recordingTime}s / {maxRecordingTime}s
             </div>

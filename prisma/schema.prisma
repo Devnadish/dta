@@ -1,3 +1,5 @@
+
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,70 +9,75 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model faq {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug         String   @unique
-  question     String   @default("")
-  userEmail    String   @default("")
-  viewerCount  Int      @default(0)
-  loveCount    Int      @default(0)
-  dislovCount Int      @default(0)
-  answers      answer[]  
-  tagged       tagged[]  
-  published Boolean @default(false)
-  rejected  Boolean @default(false)
-  gotAnswer Boolean @default(false)
-  rejectedReason String @default("")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
- 
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  slug           String          @unique
+  question       String          @default("")
+  userEmail      String          @default("")
+  priority       Int             @default(1)
+  userPlan       String          @default("basic")
+  viewerCount    Int            @default(0)
+  loveCount      Int            @default(0)
+  dislovCount    Int            @default(0)
+  answers        answer[]  
+  tagged         tagged[]  
+  published      Boolean        @default(false)
+  rejected       Boolean        @default(false)
+  gotAnswer      Boolean        @default(false)
+  rejectedReason String         @default("")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  images         FaqImage[]
+  voiceRecordings FaqVoiceRecording[]
   faqInteractions faqInteraction[]
 }
-model faqInteraction {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  faq        faq      @relation(fields: [faqId], references: [id])
-  faqId      String   @db.ObjectId
-  userEmail     String   @default("")
-  isLoved    Boolean  @default(false)
-  isDisliked Boolean  @default(false)
 
-  @@unique([faqId, userEmail])
+model FaqImage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
+  faqId     String   @db.ObjectId
+  faq       faq      @relation(fields: [faqId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
+model FaqVoiceRecording {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
+  faqId     String   @db.ObjectId
+  faq       faq      @relation(fields: [faqId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model faqInteraction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  faqId     String   @db.ObjectId
+  faq       faq      @relation(fields: [faqId], references: [id])
+}
 
 model answer {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  faqId     String    @db.ObjectId
   content   String    @default("")
-  userEmail String    @default("")
+  faqId     String    @db.ObjectId
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   faq       faq       @relation(fields: [faqId], references: [id])
   comments  comment[] @relation("AnswerToComment")
-  
-  // Add a compound index on faqId and createdAt for efficient sorting
-  @@index([faqId, createdAt])
 }
+
 model comment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  answer    answer   @relation("AnswerToComment", fields: [answerId], references: [id])
-  answerId  String   @db.ObjectId
   content   String   @default("")
-  userEmail String   @default("")
-  userImage String   @default("")
+  answerId  String   @db.ObjectId
+  answer    answer   @relation("AnswerToComment", fields: [answerId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  // Add an index on answerId for efficient lookup
-  @@index([answerId])
 }
 
-model tagged   {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  faqId     String @db.ObjectId
-  tag       String @default("")
-  faq       faq    @relation(fields: [faqId], references: [id])
+model tagged {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  faqId     String   @db.ObjectId
+  tag       String   @default("")
+  faq       faq      @relation(fields: [faqId], references: [id])
 }
 
 model tag {

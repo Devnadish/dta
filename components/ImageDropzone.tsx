@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useToast } from "@/hooks/use-toast";
 
@@ -9,33 +9,95 @@ interface ImageDropzoneProps {
     maxFiles?: number;
 }
 
+const validateImage = async (file: File): Promise<boolean> => {
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+        return false;
+    }
+
+    // Check file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+        return false;
+    }
+
+    return new Promise((resolve) => {
+        const img = document.createElement('img');
+        img.onload = () => {
+            URL.revokeObjectURL(img.src);
+            resolve(true);
+        };
+        img.onerror = () => {
+            URL.revokeObjectURL(img.src);
+            resolve(false);
+        };
+        img.src = URL.createObjectURL(file);
+    });
+};
+
 const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages, maxFiles = Infinity }) => {
     const { toast } = useToast();
+    const [previews, setPreviews] = useState<string[]>([]);
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
+    const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (images.length + acceptedFiles.length > maxFiles) {
             toast({
                 title: "Maximum images limit reached",
                 description: `You can only upload up to ${maxFiles} images`,
                 variant: "destructive",
             });
-            // Only add images up to the limit
-            const remainingSlots = maxFiles - images.length;
-            if (remainingSlots > 0) {
-                setImages((prevImages) => [...prevImages, ...acceptedFiles.slice(0, remainingSlots)]);
-            }
             return;
         }
-        setImages((prevImages) => [...prevImages, ...acceptedFiles]);
+
+        // Validate each file
+        const validationPromises = acceptedFiles.map(validateImage);
+        const validationResults = await Promise.all(validationPromises);
+        
+        const validFiles = acceptedFiles.filter((_, index) => validationResults[index]);
+        const invalidCount = acceptedFiles.length - validFiles.length;
+
+        if (invalidCount > 0) {
+            toast({
+                title: "Invalid files detected",
+                description: `${invalidCount} file(s) were not valid images or exceeded size limit (max 5MB) and were skipped`,
+                variant: "destructive",
+            });
+        }
+
+        if (validFiles.length > 0) {
+            const remainingSlots = maxFiles - images.length;
+            const filesToAdd = validFiles.slice(0, remainingSlots);
+            
+            // Create new previews
+            const newPreviews = filesToAdd.map(file => URL.createObjectURL(file));
+            setPreviews(prev => [...prev, ...newPreviews]);
+            
+            setImages(prevImages => [...prevImages, ...filesToAdd]);
+        }
     }, [setImages, maxFiles, images.length, toast]);
 
     const removeImage = (index: number) => {
-        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        // Cleanup preview URL
+        if (previews[index]) {
+            URL.revokeObjectURL(previews[index]);
+        }
+        setPreviews(prev => prev.filter((_, i) => i !== index));
+        setImages(prevImages => prevImages.filter((_, i) => i !== index));
     };
 
     const removeAllImages = () => {
+        // Cleanup all preview URLs
+        previews.forEach(url => URL.revokeObjectURL(url));
+        setPreviews([]);
         setImages([]);
     };
+
+    // Cleanup previews on unmount
+    React.useEffect(() => {
+        return () => {
+            previews.forEach(url => URL.revokeObjectURL(url));
+        };
+    }, []);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
@@ -60,7 +122,10 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages, maxFil
                 {images.length >= maxFiles ? (
                     <p className="text-gray-500">Maximum number of images reached</p>
                 ) : (
-                    <p>Drag 'n' drop images here, or click to select</p>
+                    <div className="space-y-2">
+                        <p>Drag 'n' drop images here, or click to select</p>
+                        <p className="text-sm text-gray-500">Maximum file size: 5MB</p>
+                    </div>
                 )}
             </div>
 
@@ -80,17 +145,13 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages, maxFil
                     <div className="flex items-center justify-start gap-4 flex-wrap">
                         {images.map((file, index) => (
                             <div key={index} className="relative group">
-                                <Image
-                                    src={URL.createObjectURL(file)}
-                                    alt={file.name}
-                                    width={200}
-                                    height={200}
-                                    className="w-24 h-24 object-cover rounded-lg transition-transform group-hover:scale-105"
-                                    loading="lazy"
-                                    onLoad={(e) => {
-                                        URL.revokeObjectURL(e.currentTarget.src);
-                                    }}
-                                />
+                                <div className="w-24 h-24 relative">
+                                    <img
+                                        src={previews[index]}
+                                        alt={file.name}
+                                        className="w-full h-full object-cover rounded-lg transition-transform group-hover:scale-105"
+                                    />
+                                </div>
                                 <button
                                     onClick={() => removeImage(index)}
                                     className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center
